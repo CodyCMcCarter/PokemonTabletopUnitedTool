@@ -42,6 +42,22 @@ const db = new pg.Client({
     res.render("home.ejs", {user: user});
   })
 
+  app.get("/resources", (req, res) => {
+    res.render("resources.ejs");
+  })
+
+  app.get("/attackCalc", (req, res) => {
+    res.render("attackCalc.ejs", {user: user})
+  })
+
+  app.get("/characterSheets", (req, res) => {
+    res.render("characterSheets.ejs", {user: user})
+  })
+
+  app.get("/pokemonSheets", (req, res) => {
+    res.render("pokemonSheets.ejs", {user: user})
+  })
+
   app.get("/typeChart", (req, res) => {
     res.render("typeChart.ejs")
   })
