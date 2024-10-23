@@ -10,12 +10,38 @@ body {
     left: 100px;
 }
 
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 40%;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-button {
+    margin-top: 10px;
+    width: 50px;
+}
+
 .nav-container {
+    position: fixed;
     display: relative;
+    height: 100vh;
 }
 
 nav {
+    position: absolute;
     margin: 0 50px;
+}
+
+nav > li:hover {
+    background-color: #40A2D8;
+    color: #000;
 }
 
 .breadcrumb-item.active {
@@ -57,7 +83,7 @@ a {
 }
 
 main {
-    padding-left: 20px;
+    padding-left: 200px;
 }
 
 .sidebar {
@@ -153,7 +179,8 @@ ul {
 }
 
 ul > li {
-    margin-block-end: 10px;
+    height: 30px;
+    vertical-align: text-top;
 }
 
 .card-container {
@@ -179,9 +206,54 @@ ul > li {
     z-index: 0;
 }
 
+.category-card > h3 {
+    background-color: #0b60b0c2;
+    padding: 5px;
+}
+
 .type-chart {
     background-image: url(../images/PokemonTypeChart.png);
     background-size: 210px;
+}
+
+.core-rules {
+    background-image: url(../images/PTUCoreRules.PNG);
+    background-size: 215px 199px;
+}
+
+.errata {
+    background-image: url(../images/PTUErrata.PNG);
+    background-size: 210px 200px;
+}
+
+.pokedex-1-7 {
+    background-image: url(../images/pokedex.png);
+    background-size: 210px 300px;
+}
+
+.pokedex-8 {
+    background-image: url(../images/galardex.png);
+    background-size: 200px 210px;
+}
+
+.pokedex-arceus {
+    background-image: url(../images/hisuidex.png);
+    background-size: 210px 200px;
+}
+
+.sumo-ref {
+    background-image: url(../images/SuMoRef.PNG);
+    background-size: 210px 200px;
+}
+
+.gal-ref {
+    background-image: url(../images/GalRef.PNG);
+    background-size: 210px 220px;
+}
+
+.arc-ref {
+    background-image: url(../images/arcRef.PNG);
+    background-size: 210px 220px;
 }
 
 .nav-container {
@@ -196,15 +268,11 @@ ul > li {
     padding: 5px;
     font-weight: bold;
     width: 50px;
-    margin-bottom: 10px;
-}
-
-.text-overlay {
-    background-color: #0B60B0;
+    margin-bottom: 30px;
 }
 
 .shadow {
-    background-color: #000;
+    background-color: #40A2D8;
     border-radius: 10%;
     z-index: -1;
 }

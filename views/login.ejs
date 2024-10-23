@@ -9,15 +9,15 @@
 
 <body>
 <div class="container">
-    <h1>Login</h1>
-    <div>
+    <div class="login-page">
+        <h1>Login</h1>
         <!-- Makes POST request to /login route -->
-        <form action="/login" method="POST">
+        <form action="/login" method="POST" class="login-form">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="name" class="form-control" name="username" autofocus="true">
+                <input type="name" name="username" autofocus="true">
             </div>
-            <button type="submit" class="btn btn-dark">Login</button>
+            <button type="submit" class="login-button">Login</button>
         </form>
     </div>
 </div>
