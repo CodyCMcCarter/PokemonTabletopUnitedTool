@@ -44,28 +44,6 @@ nav > li:hover {
     color: #000;
 }
 
-.breadcrumb-item.active {
-    color: #40A2D8 !important;
-}
-
-.breadcrumb {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 1rem;
-    padding-bottom: .5rem;
-    background-color: #000;
-    border-radius: 10px;
-    width: 90%;
-}
-
-.breadcrumb-item + .breadcrumb-item::before {
-    float: left;
-    padding-right: 8px;
-    content: '/';
-    color: #40A2D8;
-}
-
 a {
     text-decoration: none;
     color: #F0EDCF;
@@ -92,84 +70,6 @@ main {
     min-width: 150px;
     background-color: #0B60B0;
     overflow: hidden;
-}
-
-.collapsible-button {
-    display: inline-flex;
-    background-color: #000;
-    color: #F0EDCF;
-    border: none;
-    align-items: center;
-    padding-left: 15px;
-    height: 50px;
-    max-width: 150px;
-    font-weight: bold;
-    font-size: 15px;
-    margin-bottom: 5px;
-}
-
-.collapsible-button::before {
-    content: '';
-    position: relative;
-    border-right: 2px solid #F0EDCF;
-    border-bottom: 2px solid #F0EDCF;
-    width: 10px;
-    height: 10px;
-    top: 5px;
-    left: -7px;
-    transform: translateY(-50%) rotate(-45deg);
-    transition: transform .5s, top .5s;
-    margin-right: 5px;
-}
-
-.collapsible-button[aria-expanded="true"]::before {
-    transform: rotate(45deg);
-    top: -5px;
-}
-
-.collapsible-button:hover, .collapsible-button:focus {
-    background-color: #0B60B0;
-    color: #F0EDCF;
-    border-radius: .4rem;
-}
-
-.collapsible-button + div {
-    margin-left: 2rem;
-}
-
-.characters.collapse:not(.show) {
-    height: 0;
-    width: 0;
-}
-
-.characters.collapse {
-    height: 160px;
-}
-
-.technology.collapse:not(.show) {
-    height: 0;
-    width: 0;
-}
-
-.technology.collapse {
-    height: 105px;
-}
-
-.collapse {
-    height: 190px;
-    overflow: hidden;
-    transition: height .35s ease;
-}
-
-.collapsing {
-    height: 0;
-    overflow: hidden;
-    transition: height .35s ease;
-}
-
-.collapse:not(.show) {
-    height: 0;
-    width: 0;
 }
 
 ul {
@@ -302,34 +202,6 @@ ul > li {
     margin: 0;
 }
 
-.hobby-icon:hover ~ .hobby-list {
-    opacity: 1;
-    max-height: inherit;
-}
-
-.hobby-icon {
-    background-color: #40A2D8;
-    color: #F0EDCF;
-    width: 4rem;
-    height: 4rem;
-    border-radius: .75rem;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 16px;
-}
-
-.hobby-list {
-    overflow: hidden;
-    transition: opacity 300ms ease;
-    opacity: 0;
-}
-
-.hobby-header {
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
 footer {
     position: fixed;
     bottom: 0;
@@ -350,25 +222,6 @@ footer a {
     color: #0B60B0;
 }
 
-.hobby-container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 2rem 0rem 2rem;
-    width: 100%;
-}
-
-.hobby-card {
-    padding: 0 12px 0 12px;
-    width: 20%;
-}
-
-.phone-menu {
-    margin-top: 15px;
-    display: none;
-    height: 0;
-    width: 0;
-}
-
 @media (max-width: 680px) {
     .sidebar {
         width: 150px;
@@ -379,15 +232,5 @@ footer a {
         position: absolute;
         display: none;
         width: 0;
-    }
-
-    .phone-menu {
-        display: block;
-        position: absolute;
-        width: 150px;
-    }
-
-    .breadcrumb {
-        margin-left: 20px;
     }
 }
