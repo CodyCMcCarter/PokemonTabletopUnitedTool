@@ -30,7 +30,35 @@ const db = new pg.Client({
             user = "";
         }
     }catch(e){
-        console.log(e)
+        console.log(e);
+    }
+  }
+
+  async function getCharacters() {
+    try{
+      if(user === process.env.ADMIN_USER){
+        var result = await db.query("SELECT * FROM characterSheets");
+        return result.rows;
+      }else{
+        var result = await db.query("SELECT * FROM characterSheets WHERE player = $1", [user]);
+        return result.rows;
+      }
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+  async function getPokemon() {
+    try{
+      if(user === process.env.ADMIN_USER){
+        var result = await db.query("SELECT * FROM pokemonSheets");
+        return result.rows;
+      }else{
+        var result = await db.query("SELECT * FROM pokemonSheets WHERE player = $1", [user]);
+        return result.rows;
+      }
+    }catch(e){
+      console.log(e);
     }
   }
 
@@ -47,24 +75,26 @@ const db = new pg.Client({
   })
 
   app.get("/attackCalc", (req, res) => {
-    res.render("attackCalc.ejs", {user: user})
+    res.render("attackCalc.ejs", {user: user});
   })
 
-  app.get("/characterSheets", (req, res) => {
-    res.render("characterSheets.ejs", {user: user})
+  app.get("/characterSheets", async (req, res) => {
+    var characters = await getCharacters();
+    res.render("characterSheets.ejs", {user: user, characters: characters});
   })
 
-  app.get("/pokemonSheets", (req, res) => {
-    res.render("pokemonSheets.ejs", {user: user})
+  app.get("/pokemonSheets", async (req, res) => {
+    var pokemon = await getPokemon();
+    res.render("pokemonSheets.ejs", {user: user, pokemon: pokemon});
   })
 
   app.get("/typeChart", (req, res) => {
-    res.render("typeChart.ejs")
+    res.render("typeChart.ejs");
   })
 
   app.get("/logout", (req, res) => {
     user = "";
-    res.redirect("/")
+    res.redirect("/");
   })
 
   app.post("/login", async (req, res) => {
@@ -74,7 +104,7 @@ const db = new pg.Client({
     if(user !== "") {
         res.redirect("/home");
     } else {
-        res.redirect("/")
+        res.redirect("/");
     }
   })
 
