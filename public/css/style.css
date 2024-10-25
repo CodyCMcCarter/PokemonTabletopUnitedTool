@@ -211,6 +211,21 @@ ul > li {
     padding: 5px;
 }
 
+.calculator {
+    background-image: url(../images/brokenCalc.png);
+    background-size: 220px 220px;
+}
+
+.char-sheet {
+    background-image: url(../images/charSheet.PNG);
+    background-size: 210px;
+}
+
+.poke-sheet {
+    background-image: url(../images/pokeSheet.PNG);
+    background-size: 210px;
+}
+
 .type-chart {
     background-image: url(../images/PokemonTypeChart.png);
     background-size: 210px;
