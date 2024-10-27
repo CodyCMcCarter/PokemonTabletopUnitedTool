@@ -23,6 +23,13 @@ body {
     align-items: center;
 }
 
+.form-button {
+    background-color: #0B60B0;
+    color: #F0EDCF;
+    width: fit-content;
+    border-color: #40A2D8;
+}
+
 .login-button {
     margin-top: 10px;
     width: 50px;
@@ -222,15 +229,102 @@ footer a {
     color: #0B60B0;
 }
 
+.bold-highlight {
+    font-weight: bold;
+    color: #40A2D8;
+}
+
+.icon {
+    height: 20px;
+    width: 20px;
+}
+
+.flex-this {
+    display: flex;
+    justify-content: space-between;
+}
+
+.strike-info:hover ~ .strike-info-box {
+    opacity: 1;
+    max-height: inherit;
+    padding: 0 5px;
+}
+
+.strike-info-box {
+    background-color: #000;
+    border: 1px solid #40A2D8;
+    position: fixed;
+    left: 190px;
+    width: 390px;
+    max-height: 0;
+    margin-left: 10px;
+    overflow: hidden;
+    /*transition: opacity 30ms ease;*/
+    opacity: 0;
+}
+
+.radio-buttons {
+    margin: 5px 0 10px 0;
+    width: 200px;
+    color: #F0EDCF;
+    border: 1px solid #40A2D8;
+    border-radius: 5px;
+}
+
+.radio-button-margin {
+    margin: 3px;
+}
+
+.expanded {
+    width: 400px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.calculate-button {
+    margin-bottom: 5px;
+}
+
+.form-input {
+    display: flex;
+    margin-bottom: 10px;
+    height: 20px;
+}
+
+.form-input > label {
+    width: 200px;
+}
+
+.radio-buttons > .form-input > label {
+    width: 170px;
+}
+
+.number-input {
+    width: 45px;
+}
+
+input:disabled {
+    background-color: white;
+    border-radius: 1px;
+    color: #000;
+}
+
+.hide {
+    display: none;
+}
+
+.extra-input {
+    display: flex;
+    justify-content: flex-start;
+    width: 170px;
+}
+
 @media (max-width: 680px) {
     .sidebar {
         width: 150px;
         transition: width .5s ease;
-    }
-
-    .sidebar:not(.show) {
-        position: absolute;
-        display: none;
-        width: 0;
     }
 }

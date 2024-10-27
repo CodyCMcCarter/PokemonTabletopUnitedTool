@@ -1,0 +1,151 @@
+<%- include('partials/header') %>
+
+<main>
+    <div>
+        <h1>Attack Calculator</h1>
+        <form name="calcForm" action="/calculateDamage" method="POST">
+            <div class="form-group">
+                <div class="form-input">
+                    <label for="damageBase">Damage Base: </label>
+                    <input class="number-input" type="number" name="damageBase" value="0" min="0" autofocus="true">
+                </div>
+                <label for="strikeNumber">Five/Double Strike: </label>
+                <div class="flex-this">
+                    <div class="radio-buttons expanded">
+                        <div class="flex-this">
+                            <div class="form-input">
+                                <input class="radio-button-margin" type="radio" id="singleStrike" name="strikeNumber" onclick="disableDoubleCrit(); disableFiveCount(); setHits(1);" value="single">
+                                <label for="singleStrike">Single Strike</label>
+                                <div class="extra-input">
+                                    <label for="crit">Critical Hit?: </label>
+                                    <input type="checkbox" name="crit">    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-input">
+                            <input class="radio-button-margin" type="radio" id="doubleStrike" name="strikeNumber" onclick="enableDoubleCrit(); disableFiveCount(); setHits(2);" value="double">
+                            <label for="doubleStrike">Double Strike</label>
+                            <div class="extra-input">
+                                <label class="hide" id="doubleCritLable" for="doubleCrit">Double Critical Hit?: </label>
+                                <input class="hide" id="doubleCritInput" type="checkbox" name="doubleCrit">    
+                            </div>
+                        </div>
+                        <div class="form-input">
+                            <input class="radio-button-margin" type="radio" id="fiveStrike" name="strikeNumber" onclick="disableDoubleCrit(); enableFiveCount(); setHits(5);" value="five">
+                            <label for="fiveStrike">Five Strike</label>
+                            <div class="extra-input">
+                                <label class="hide" id="fiveCountLable" for="hitCount">Hits?: </label>
+                                <input class="five-strike-input number-input hide" id="hitCountInput" type="number" name="hitCount" min="1" max="5">
+                            </div>
+                        </div>
+                    </div>
+                    <img class="strike-info icon" src="/icons/info.svg">
+                    <div class="strike-info-box">
+                        <p>
+                            <span class="bold-highlight">Double Strike:</span> Make two Attack Rolls. If one Attack Roll hits,
+                            use the Move's Damage Base value; if both Attack Rolls hit, the Damage Base value is doubled. 
+                            Each hit can Crit separately; when adding damage from Critical Hit, add the Damage Base before it is doubled.
+                        </p>
+                        <p>
+                            <span class="bold-highlight">Five Strike:</span> Roll 1d8. 
+                            <p>1: 1 hit</p>
+                            <p>2-3: 2 hits</p>
+                            <p>4-6: 3 hits</p>
+                            <p>7: 4 hits</p>
+                            <p>8: 5 hits</p> 
+                            Multiply the Move's Damage Base by the number of hits.
+                            Always apply Technician to Five Strike. 
+                        </p>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label for="stab">STAB?: </label>
+                    <input type="checkbox" name="stab">    
+                </div>
+                
+                <div class="form-input">
+                    <label for="damageStat">Relevant Attack Stat: </label>
+                    <input class="number-input" type="number" name="damageStat" value="0" min="0">
+                </div>
+                <div class="form-input">
+                    <label for="damageMods">Other Attack Modifiers: </label>
+                    <input class="number-input" type="number" name="damageMods" value="0">
+                </div>
+                <div class="form-input">
+                    <label for="defenseStat">Relevant Defense Stat: </label>
+                    <input class="number-input" type="number" name="defenseStat" value="0" min="0">
+                </div>
+                <div class="form-input">
+                    <label for="defenseMods">Other Defense Modifiers: </label>
+                    <input class="number-input" type="number" name="defenseMods" value="0">
+                </div>
+                <label for="typeMultiplier">Defender Type Multiplier: </label>
+                <div class="radio-buttons">
+                    <div class="form-input">
+                        <input class="radio-button-margin" type="radio" id="doubleWeak" name="typeMultiplier" value="2">
+                        <label for="doubleWeak">x2 (Double Weakness)</label>
+                    </div>
+                    <div class="form-input">
+                        <input class="radio-button-margin" type="radio" id="singleWeak" name="typeMultiplier" value="1.5">
+                        <label for="singleWeak">x1.5 (Weakness)</label>
+                    </div>
+                    <div class="form-input">
+                        <input class="radio-button-margin" type="radio" id="neutral" name="typeMultiplier" value="1">
+                        <label for="neutral">x1 (Neutral)</label>
+                    </div>
+                    <div class="form-input">
+                        <input class="radio-button-margin" type="radio" id="singleResist" name="typeMultiplier" value="0.5">
+                        <label for="singleResist">x1/2 (Resistant)</label>
+                    </div>
+                    <div class="form-input">
+                        <input class="radio-button-margin" type="radio" id="doubleResist" name="typeMultiplier" value="0.25">
+                        <label for="dougleResist">x1/4 (Double Resistant)</label>
+                    </div>
+                </div>
+                <button type="submit" class="form-button calculate-button">Calculate Damage</button>
+                <div class="form-input">
+                    <label for="finalDamage">Final Damage: </label>
+                    <input class="number-input" name="finalDamage" disabled value="<%=finalDamage%>">
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+    function enableFiveCount() {
+        if(document.getElementById("fiveCountLable").classList.contains("hide")){
+            document.getElementById("fiveCountLable").classList.remove("hide");
+            document.getElementById("hitCountInput").classList.remove("hide");
+        }
+    }
+
+    function disableFiveCount() {
+        if(!document.getElementById("fiveCountLable").classList.contains("hide")){
+            document.getElementById("fiveCountLable").classList.add("hide");
+            document.getElementById("hitCountInput").classList.add("hide");
+            document.getElementById("hitCountInput").value = "";
+        }
+    }
+
+    function enableDoubleCrit() {
+        if(document.getElementById("doubleCritLable").classList.contains("hide")){
+            document.getElementById("doubleCritLable").classList.remove("hide");
+            document.getElementById("doubleCritInput").classList.remove("hide");
+        }
+    }
+
+    function disableDoubleCrit() {
+        if(!document.getElementById("doubleCritLable").classList.contains("hide")){
+            document.getElementById("doubleCritLable").classList.add("hide");
+            document.getElementById("doubleCritInput").classList.add("hide");
+            document.getElementById("doubleCritInput").checked = false;
+        }
+    }
+
+    function setHits(hits) {
+        document.getElementById("hitCountInput").value = hits;
+    }
+</script>
+
+  <%- include('partials/footer') %>

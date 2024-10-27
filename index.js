@@ -20,6 +20,7 @@ const db = new pg.Client({
   db.connect();
 
   var user = "";
+  var finalDamage = 0;
 
   async function isAuthenticated(username) {
     try{
@@ -62,40 +63,107 @@ const db = new pg.Client({
     }
   }
 
+  function damageCalculator(db, strikes, hits, stab, crit, doubCrit, atk, def, type){
+    var finalDB = 0;
+    var critMult = 1;
+    var finalDamage = 0;
+    finalDB = db * hits;
+
+    if(stab){
+      finalDB += 2;
+    }
+    if(strikes === "double"){
+      if(doubCrit){
+        critMult = 2;
+      } else if(!doubCrit && crit){
+        critMult = 1.5;
+      }
+    } else {
+      if (crit){
+        critMult = 2;
+      }
+    }
+    finalDB = Math.floor(finalDB * critMult);
+    var damageRoll = Math.floor(Math.random() * ((finalDB * 4) - finalDB + 1) + finalDB);
+    finalDamage = damageRoll + atk - def;
+    finalDamage = Math.floor(finalDamage * type);
+    return finalDamage;
+  }
+
   app.get("/", (req, res) => {
     res.render("login.ejs");
   });
 
   app.get("/home", (req, res) => {
-    res.render("home.ejs", {user: user});
+    if(user !== ""){
+      res.render("home.ejs", {user: user});
+    }else{
+      res.redirect("/");
+    }
   })
 
   app.get("/resources", (req, res) => {
-    res.render("resources.ejs");
+    if(user !== ""){
+      res.render("resources.ejs");
+    }else{
+      res.redirect("/");
+    }
   })
 
   app.get("/attackCalc", (req, res) => {
-    res.render("attackCalc.ejs", {user: user});
+    if(user !== ""){
+      res.render("attackCalc.ejs", {finalDamage: finalDamage});
+    }else{
+      res.redirect("/");
+    }
   })
 
   app.get("/characterSheets", async (req, res) => {
-    var characters = await getCharacters();
-    res.render("characterSheets.ejs", {user: user, characters: characters});
+    if(user !== ""){
+      var characters = await getCharacters();
+      res.render("characterSheets.ejs", {user: user, characters: characters});
+    }else{
+      res.redirect("/");
+    }
   })
 
   app.get("/pokemonSheets", async (req, res) => {
-    var pokemon = await getPokemon();
-    res.render("pokemonSheets.ejs", {user: user, pokemon: pokemon});
+    if(user !== ""){
+      var pokemon = await getPokemon();
+      res.render("pokemonSheets.ejs", {user: user, pokemon: pokemon});
+    }else{
+      res.redirect("/");
+    }
   })
 
   app.get("/typeChart", (req, res) => {
-    res.render("typeChart.ejs");
+    if(user !== ""){
+      res.render("typeChart.ejs");
+    }else{
+      res.redirect("/");
+    }
   })
 
   app.get("/logout", (req, res) => {
     user = "";
     res.redirect("/");
   })
+
+  app.post("/calculateDamage", (req, res) => {
+    finalDamage = 0;
+    var damageBase = parseInt(req.body.damageBase);
+    var strikeNumber = req.body.strikeNumber;
+    var hits = Number(req.body.hitCount);
+    var stab = req.body.stab;
+    var crit = req.body.crit;
+    var doubCrit = req.body.doubleCrit;
+    var attack = Number(req.body.damageStat) + Number(req.body.damageMods);
+    var defense = Number(req.body.defenseStat) + Number(req.body.defenseMods);
+    var typeMultiplier = parseFloat(req.body.typeMultiplier);
+
+    finalDamage = damageCalculator(damageBase, strikeNumber, hits, stab, crit, doubCrit, attack, defense, typeMultiplier);
+    res.redirect("/attackCalc");
+  });
 
   app.post("/login", async (req, res) => {
     var username = req.body.username;
