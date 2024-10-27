@@ -3,8 +3,24 @@
 <main>
     <div>
         <h1>Pokemon Sheets</h1>
-        <div>
-            
+        <div class="card-container">
+            <%sheets.forEach((sheet) => {%>
+                <a href="/sheet/<%=sheet.id%>">
+                    <div class="shadow">
+                        <div class="category-card card-hover sheet-card">
+                            <h3 class="margin-2"><%=sheet.pokemon_name%></h3>
+                            <p class="margin-2"><%=sheet.trainer%></p>
+                            <h4 class="margin-2"><%=sheet.species%></h4>
+                            <p class="margin-2"><%=sheet.type1%>
+                                <%if(sheet.type2 != null){%>
+                                     / <%=sheet.type2%>
+                                <%}%>
+                            </p>
+                            <p class="margin-2">Level: <%=sheet.poke_level%></p>
+                        </div>
+                    </div>
+                </a>
+            <%});%>
         </div>
     </div>
 </main>

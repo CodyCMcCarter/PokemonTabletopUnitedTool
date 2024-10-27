@@ -113,9 +113,21 @@ ul > li {
     z-index: 0;
 }
 
+.sheet-card {
+    flex-direction: column;
+    width: 130px;
+    height: 130px;
+    align-items: center;
+}
+
+.margin-2 {
+    margin: 2px;
+}
+
 .category-card > h3 {
     background-color: #0b60b0c2;
     padding: 5px;
+    margin: 0;
 }
 
 .calculator {
@@ -199,14 +211,10 @@ ul > li {
     z-index: -1;
 }
 
-.category-card:hover {
+.card-hover:hover {
     position: relative;
     top: -10px;
     left: -10px;
-}
-
-.category-card > h3 {
-    margin: 0;
 }
 
 footer {
@@ -253,7 +261,7 @@ footer a {
 .strike-info-box {
     background-color: #000;
     border: 1px solid #40A2D8;
-    position: fixed;
+    position: absolute;
     left: 190px;
     width: 390px;
     max-height: 0;
@@ -269,6 +277,21 @@ footer a {
     color: #F0EDCF;
     border: 1px solid #40A2D8;
     border-radius: 5px;
+}
+
+.stat-box {
+    padding: 5px 5px 0 5px;
+    width: 250px;
+    border: 1px solid #40A2D8;
+    border-radius: 5px;
+}
+
+h4 {
+    margin: 10px 0 5px 0;
+}
+
+.type-header {
+    margin-top: 10px;
 }
 
 .radio-button-margin {

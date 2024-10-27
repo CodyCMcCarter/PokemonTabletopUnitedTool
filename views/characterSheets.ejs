@@ -3,8 +3,18 @@
 <main>
     <div>
         <h1>Character Sheets</h1>
-        <div>
-            
+        <div class="card-container">
+            <%sheets.forEach((sheet) => {%>
+                <a href="/sheet/<%=sheet.id%>">
+                    <div class="shadow">
+                        <div class="category-card card-hover sheet-card">
+                            <h3><%=sheet.char_name%></h3>
+                            <h4><%=sheet.background%></h4>
+                            <p>Level: <%=sheet.char_level%></p>
+                        </div>
+                    </div>
+                </a>
+            <%});%>
         </div>
     </div>
 </main>
