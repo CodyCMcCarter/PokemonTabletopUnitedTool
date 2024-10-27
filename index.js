@@ -63,6 +63,23 @@ const db = new pg.Client({
     }
   }
 
+  function findCombatStages(stat, statCS, statMods){
+    var finalStat = 1;
+
+    if(statCS >= 0){
+      statCS *= 0.2;
+    } else if(statCS < 0){
+      statCS *= (1 - statCS/10);
+    }
+
+    finalStat = stat + Math.floor((stat * statCS)) + statMods
+    if(finalStat < 1){
+      finalStat = 1;
+    }
+    
+    return finalStat;
+  }
+
   function damageCalculator(db, strikes, hits, stab, crit, doubCrit, atk, def, type){
     var finalDB = 0;
     var critMult = 1;
@@ -83,10 +100,15 @@ const db = new pg.Client({
         critMult = 2;
       }
     }
+
     finalDB = Math.floor(finalDB * critMult);
     var damageRoll = Math.floor(Math.random() * ((finalDB * 4) - finalDB + 1) + finalDB);
     finalDamage = damageRoll + atk - def;
     finalDamage = Math.floor(finalDamage * type);
+    if(finalDamage <= 0){
+      finalDamage = 1;
+    }
+
     return finalDamage;
   }
 
@@ -120,8 +142,8 @@ const db = new pg.Client({
 
   app.get("/characterSheets", async (req, res) => {
     if(user !== ""){
-      var characters = await getCharacters();
-      res.render("characterSheets.ejs", {user: user, characters: characters});
+      var sheets = await getCharacters();
+      res.render("characterSheets.ejs", {user: user, sheets: sheets});
     }else{
       res.redirect("/");
     }
@@ -129,8 +151,8 @@ const db = new pg.Client({
 
   app.get("/pokemonSheets", async (req, res) => {
     if(user !== ""){
-      var pokemon = await getPokemon();
-      res.render("pokemonSheets.ejs", {user: user, pokemon: pokemon});
+      var sheets = await getPokemon();
+      res.render("pokemonSheets.ejs", {user: user, sheets: sheets});
     }else{
       res.redirect("/");
     }
@@ -153,14 +175,15 @@ const db = new pg.Client({
     finalDamage = 0;
     var damageBase = parseInt(req.body.damageBase);
     var strikeNumber = req.body.strikeNumber;
-    var hits = Number(req.body.hitCount);
+    var hits = parseInt(req.body.hitCount);
     var stab = req.body.stab;
     var crit = req.body.crit;
     var doubCrit = req.body.doubleCrit;
-    var attack = Number(req.body.damageStat) + Number(req.body.damageMods);
-    var defense = Number(req.body.defenseStat) + Number(req.body.defenseMods);
     var typeMultiplier = parseFloat(req.body.typeMultiplier);
-
+    
+    var attack = findCombatStages(parseInt(req.body.damageStat), parseInt(req.body.damageCS), parseInt(req.body.damageMods));
+    var defense = findCombatStages(parseInt(req.body.defenseStat), parseInt(req.body.defenseCS), parseInt(req.body.defenseMods));
+    
     finalDamage = damageCalculator(damageBase, strikeNumber, hits, stab, crit, doubCrit, attack, defense, typeMultiplier);
     res.redirect("/attackCalc");
   });
